@@ -6,5 +6,6 @@ namespace MyBackendApp.DAL
     {
         public IEnumerable<Samurai> GetAll();
         public Samurai GetById(int id);
+        public IEnumerable<Samurai> GetByName(string name);
     }
 }

@@ -69,5 +69,37 @@ namespace MyBackendApp.DAL
                 return samurai;
             }
         }
+
+        public IEnumerable<Samurai> GetByName(string name)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                List<Samurai> listSamurai = new List<Samurai>();
+                string strSql = @"select * from Samurais 
+                                  where Name like @Name
+                                  order by Name asc";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@Name", "%" + name + "%");
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        listSamurai.Add(new Samurai()
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            Name = dr["Name"].ToString()
+                        });
+                    }
+                }
+                dr.Close();
+                cmd.Dispose();
+                conn.Close();
+
+                return listSamurai;
+            }
+        }
     }
 }

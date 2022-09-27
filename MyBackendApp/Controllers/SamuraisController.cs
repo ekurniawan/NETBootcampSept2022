@@ -27,5 +27,12 @@ namespace MyBackendApp.Controllers
         {
             return _samurai.GetById(id);
         }
+
+        [HttpGet("ByName")]
+        public IEnumerable<Samurai> GetByName(string name)
+        {
+            return _samurai.GetByName(name);
+        }
+
     }
 }
