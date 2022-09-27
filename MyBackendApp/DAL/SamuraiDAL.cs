@@ -1,4 +1,5 @@
 ﻿using MyBackendApp.Models;
+using System.Data.SqlClient;
 
 namespace MyBackendApp.DAL
 {
@@ -16,7 +17,31 @@ namespace MyBackendApp.DAL
 
         public IEnumerable<Samurai> GetAll()
         {
-            throw new NotImplementedException();
+            using(SqlConnection conn =new SqlConnection(GetConn()))
+            {
+                List<Samurai> listSamurai = new List<Samurai>();
+                string strSql = @"select * from Samurais order by Name asc";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                if(dr.HasRows)
+                {
+                    while(dr.Read())
+                    {
+                        listSamurai.Add(new Samurai()
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            Name = dr["Name"].ToString()
+                        });
+                    }
+                }
+                dr.Close();
+                cmd.Dispose();
+                conn.Close();
+
+                return listSamurai;
+            }
         }
 
         public Samurai GetById(int id)

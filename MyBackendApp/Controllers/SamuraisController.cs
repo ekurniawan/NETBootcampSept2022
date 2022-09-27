@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyBackendApp.DAL;
 using MyBackendApp.Models;
 
 namespace MyBackendApp.Controllers
@@ -8,14 +9,17 @@ namespace MyBackendApp.Controllers
     [ApiController]
     public class SamuraisController : ControllerBase
     {
-        [HttpGet]
-        public Samurai Get()
+        private readonly ISamurai _samurai;
+        public SamuraisController(ISamurai samurai)
         {
-            Samurai samurai1 = new Samurai()
-            {
-                Id = 1,Name="Tanjiro Kamado"
-            };
-            return samurai1;
+            _samurai = samurai;
+        }
+
+        [HttpGet]
+        public IEnumerable<Samurai> Get()
+        {
+            var results = _samurai.GetAll();
+            return results;
         }
     }
 }
