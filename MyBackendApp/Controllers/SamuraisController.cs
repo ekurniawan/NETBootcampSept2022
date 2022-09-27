@@ -21,5 +21,11 @@ namespace MyBackendApp.Controllers
             var results = _samurai.GetAll();
             return results;
         }
+
+        [HttpGet("{id}")]
+        public Samurai Get(int id)
+        {
+            return _samurai.GetById(id);
+        }
     }
 }
