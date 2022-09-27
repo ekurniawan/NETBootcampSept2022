@@ -8,7 +8,7 @@ namespace MyBackendApp.DAL
         public Samurai GetById(int id);
         public IEnumerable<Samurai> GetByName(string name);
         public Samurai Insert(Samurai samurai);
-        public Samurai Update(int id,Samurai samurai);
+        public Samurai Update(Samurai samurai);
         public void Delete(int id);
     }
 }

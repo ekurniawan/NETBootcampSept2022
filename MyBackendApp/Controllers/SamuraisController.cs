@@ -47,6 +47,20 @@ namespace MyBackendApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        [HttpPut]
+        public IActionResult Put(Samurai samurai)
+        {
+            try
+            {
+                var editSamurai = _samurai.Update(samurai);
+                return Ok(editSamurai);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

@@ -120,12 +120,35 @@ namespace MyBackendApp.DAL
                 {
                     throw new Exception($"Error: {sqlEx.Message}");
                 }
+                finally
+                {
+                    cmd.Dispose();
+                    conn.Close();
+                }
             }
         }
 
-        public Samurai Update(int id, Samurai samurai)
+        public Samurai Update(Samurai samurai)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"update Samurais set Name=@Name where Id=@Id";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@Name", samurai.Name);
+                cmd.Parameters.AddWithValue("@Id", samurai.Id);
+                try
+                {
+                    conn.Open();
+                    int status = cmd.ExecuteNonQuery();
+                    if (status != 1)
+                        throw new Exception("Gagal mengupdate, data tidak ditemukan..");
+                    return samurai;
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception($"Error: {sqlEx.Message}");
+                }
+            }
         }
 
         public void Delete(int id)
