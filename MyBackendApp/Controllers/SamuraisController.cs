@@ -34,5 +34,19 @@ namespace MyBackendApp.Controllers
             return _samurai.GetByName(name);
         }
 
+        [HttpPost]
+        public IActionResult Post(Samurai samurai)
+        {
+            try
+            {
+                var newSamurai = _samurai.Insert(samurai);
+                return CreatedAtAction("Get", new { id = newSamurai.Id }, newSamurai);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

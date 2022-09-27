@@ -101,5 +101,36 @@ namespace MyBackendApp.DAL
                 return listSamurai;
             }
         }
+
+        public Samurai Insert(Samurai samurai)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"insert into Samurais(Name) values(@Name);select @@identity";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@Name", samurai.Name);
+                try
+                {
+                    conn.Open();
+                    int idNum = Convert.ToInt32(cmd.ExecuteScalar());
+                    samurai.Id = idNum;
+                    return samurai;
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception($"Error: {sqlEx.Message}");
+                }
+            }
+        }
+
+        public Samurai Update(int id, Samurai samurai)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
