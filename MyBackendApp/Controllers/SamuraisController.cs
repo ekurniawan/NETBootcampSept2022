@@ -62,5 +62,19 @@ namespace MyBackendApp.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _samurai.Delete(id);
+                return Ok($"Delete id {id} berhasil");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

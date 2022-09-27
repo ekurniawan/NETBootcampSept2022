@@ -148,12 +148,38 @@ namespace MyBackendApp.DAL
                 {
                     throw new Exception($"Error: {sqlEx.Message}");
                 }
+                finally
+                {
+                    cmd.Dispose();
+                    conn.Close();
+                }
             }
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"delete from Samurais where Id=@Id";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                try
+                {
+                    conn.Open();
+                    int status = cmd.ExecuteNonQuery();
+                    if (status != 1)
+                        throw new Exception($"Gagal delete data dengan id {id}");
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+                finally
+                {
+                    cmd.Dispose();
+                    conn.Close();
+                }
+            }
         }
     }
 }
