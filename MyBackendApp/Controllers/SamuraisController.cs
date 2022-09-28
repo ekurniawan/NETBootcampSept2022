@@ -32,6 +32,34 @@ namespace MyBackendApp.Controllers
             return lstSamuraiGetDto;
         }
 
+        [HttpGet("WithQuotes")]
+        public IEnumerable<SamuraiWithQuoteDTO> GetSamuraiWithQuote()
+        {
+            List<SamuraiWithQuoteDTO> lstSamuraiWithQuoteDto = new List<SamuraiWithQuoteDTO>();
+            var results = _samurai.GetAllWithQuote();
+            foreach(var r in results)
+            {
+                List<QuoteGetDTO> lstQuoteGetDto = new List<QuoteGetDTO>();
+                foreach(var q in r.Quotes)
+                {
+                    lstQuoteGetDto.Add(new QuoteGetDTO
+                    {
+                        Id = q.Id,
+                        Text = q.Text,
+                        SamuraiId = q.SamuraiId
+                    });
+                }
+
+                lstSamuraiWithQuoteDto.Add(new SamuraiWithQuoteDTO
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    Quotes = lstQuoteGetDto
+                });
+            }
+            return lstSamuraiWithQuoteDto;
+        }
+
         [HttpGet("{id}")]
         public SamuraiGetDTO Get(int id)
         {

@@ -1,4 +1,5 @@
-﻿using MyBackendApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyBackendApp.Models;
 
 namespace MyBackendApp.DAL
 {
@@ -33,6 +34,12 @@ namespace MyBackendApp.DAL
                           orderby s.Name ascending
                           select s).ToList();*/
             
+            return results;
+        }
+
+        public IEnumerable<Samurai> GetAllWithQuote()
+        {
+            var results = _dbcontext.Samurais.Include(s => s.Quotes);
             return results;
         }
 

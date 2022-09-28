@@ -181,5 +181,10 @@ namespace MyBackendApp.DAL
                 }
             }
         }
+
+        public IEnumerable<Samurai> GetAllWithQuote()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
