@@ -45,7 +45,16 @@ namespace MyBackendApp.DAL
 
         public Samurai Insert(Samurai samurai)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _dbcontext.Samurais.Add(samurai);
+                _dbcontext.SaveChanges();
+                return samurai;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Samurai Update(Samurai samurai)
