@@ -59,7 +59,20 @@ namespace MyBackendApp.DAL
 
         public Samurai Update(Samurai samurai)
         {
-            throw new NotImplementedException();
+            var updateSamurai = GetById(samurai.Id);
+            if (updateSamurai == null) 
+                throw new Exception($"Data samurai id {samurai.Id} tidak ditemukan");
+
+            try
+            {
+                updateSamurai.Name = samurai.Name;
+                _dbcontext.SaveChanges();
+                return samurai;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

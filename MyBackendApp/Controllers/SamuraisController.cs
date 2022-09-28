@@ -69,7 +69,14 @@ namespace MyBackendApp.Controllers
                 };
 
                 var newSamurai = _samurai.Insert(samurai);
-                return CreatedAtAction("Get", new { id = newSamurai.Id }, newSamurai);
+
+                var samuraiGetDto = new SamuraiGetDTO
+                {
+                    Id = newSamurai.Id,
+                    Name = newSamurai.Name
+                };
+
+                return CreatedAtAction("Get", new { id = samuraiGetDto.Id }, samuraiGetDto);
             }
             catch (Exception ex)
             {
@@ -78,12 +85,24 @@ namespace MyBackendApp.Controllers
         }
         
         [HttpPut]
-        public IActionResult Put(Samurai samurai)
+        public IActionResult Put(int id,SamuraiAddDTO samuraiDto)
         {
             try
             {
+                var samurai = new Samurai
+                {
+                    Id = id,
+                    Name = samuraiDto.Name
+                };
+
                 var editSamurai = _samurai.Update(samurai);
-                return Ok(editSamurai);
+                SamuraiGetDTO samuraiGetDto = new SamuraiGetDTO
+                {
+                    Id = id,
+                    Name = samuraiDto.Name
+                };
+
+                return Ok(samuraiGetDto);
             }
             catch (Exception ex)
             {
