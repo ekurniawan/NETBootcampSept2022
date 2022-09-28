@@ -12,7 +12,18 @@ namespace MyBackendApp.DAL
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var deleteSamurai = GetById(id);
+            if (deleteSamurai == null)
+                throw new Exception($"Data samurai dengan id {id} tidak ditemukan");
+            try
+            {
+                _dbcontext.Remove(deleteSamurai);
+                _dbcontext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public IEnumerable<Samurai> GetAll()
