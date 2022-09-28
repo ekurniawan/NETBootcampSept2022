@@ -55,5 +55,96 @@ namespace MyBackendApp.Controllers
             }
             return lstQuotesWithSamuraiDto;
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var quoteWithSamuraiDto = new QuotesWithSamuraiDto();
+            try
+            {
+                var result = _quotes.GetById(id);
+                quoteWithSamuraiDto.Id = result.Id;
+                quoteWithSamuraiDto.Text = result.Text;
+                quoteWithSamuraiDto.SamuraiId=result.SamuraiId;
+                quoteWithSamuraiDto.Samurai = new SamuraiGetDTO();
+                quoteWithSamuraiDto.Samurai.Id = result.Samurai.Id;
+                quoteWithSamuraiDto.Samurai.Name = result.Samurai.Name;
+
+                return Ok(quoteWithSamuraiDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Post(QuoteAddDTO quoteAddDto)
+        {
+            try
+            {
+                var newQuote = new Quote();
+                newQuote.Text = quoteAddDto.Text;
+                newQuote.SamuraiId = quoteAddDto.SamuraiId;
+
+                _quotes.Insert(newQuote);
+
+                QuoteGetDTO quoteGetDto = new QuoteGetDTO
+                {
+                    Id = newQuote.Id,
+                    Text = newQuote.Text,
+                    SamuraiId = newQuote.SamuraiId
+                };
+                
+                return CreatedAtAction("GetById", new { id = quoteGetDto.Id }, quoteGetDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id,QuoteAddDTO quoteAddDto)
+        {
+            try
+            {
+                var editQuote = new Quote
+                {
+                    Id = id,
+                    Text = quoteAddDto.Text,
+                    SamuraiId = quoteAddDto.SamuraiId
+                };
+
+                _quotes.Update(editQuote);
+
+                QuoteGetDTO quoteGetDto = new QuoteGetDTO
+                {
+                    Id = editQuote.Id,
+                    Text = editQuote.Text,
+                    SamuraiId = editQuote.SamuraiId
+                };
+
+                return Ok(quoteGetDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _quotes.Delete(id);
+                return Ok($"Delete Quote Id: {id} berhasil");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

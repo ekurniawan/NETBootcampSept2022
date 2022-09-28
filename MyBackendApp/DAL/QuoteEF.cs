@@ -40,7 +40,7 @@ namespace MyBackendApp.DAL
 
         public Quote GetById(int id)
         {
-            var quote = _dbcontext.Quotes.FirstOrDefault(q=>q.Id==id);
+            var quote = _dbcontext.Quotes.Include(q=>q.Samurai).FirstOrDefault(q=>q.Id==id);
             if (quote == null)
                 throw new Exception($"Data quote id {id} tidak ditemukan");
             return quote;
@@ -73,6 +73,8 @@ namespace MyBackendApp.DAL
                 var quoteUpdate = GetById(quote.Id);
                 quoteUpdate.Text = quote.Text;
                 quoteUpdate.SamuraiId = quote.SamuraiId;
+                _dbcontext.SaveChanges();
+
                 return quoteUpdate;
             }
             catch (Exception ex)
