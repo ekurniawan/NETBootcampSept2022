@@ -6,7 +6,7 @@ namespace MyBackendApp.DAL
     {
         public IEnumerable<Quote> GetAll();
         public Quote GetById(int id);
-        public IEnumerable<Quote> GetByName(string name);
+        public IEnumerable<Quote> GetByText(string text);
         public Quote Insert(Quote quote);
         public Quote Update(Quote quote);
         public void Delete(int id);

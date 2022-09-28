@@ -12,7 +12,16 @@ namespace MyBackendApp.DAL
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deleteQuote = GetById(id);
+                _dbcontext.Quotes.Remove(deleteQuote);
+                _dbcontext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public IEnumerable<Quote> GetAll()
@@ -23,22 +32,45 @@ namespace MyBackendApp.DAL
 
         public Quote GetById(int id)
         {
-            throw new NotImplementedException();
+            var quote = _dbcontext.Quotes.FirstOrDefault(q=>q.Id==id);
+            if (quote == null)
+                throw new Exception($"Data quote id {id} tidak ditemukan");
+            return quote;
         }
 
-        public IEnumerable<Quote> GetByName(string name)
+        public IEnumerable<Quote> GetByText(string text)
         {
-            throw new NotImplementedException();
+            var quotes = _dbcontext.Quotes.Where(q => q.Text.Contains(text));
+            return quotes;
         }
 
         public Quote Insert(Quote quote)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _dbcontext.Quotes.Add(quote);
+                _dbcontext.SaveChanges();
+                return quote;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Quote Update(Quote quote)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var quoteUpdate = GetById(quote.Id);
+                quoteUpdate.Text = quote.Text;
+                quoteUpdate.SamuraiId = quote.SamuraiId;
+                return quoteUpdate;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
