@@ -23,13 +23,35 @@ namespace MyBackendApp.Controllers
             var results = _quotes.GetAll();
             foreach(var r in results)
             {
-                lstQuotesWithSamuraiDto.Add(new QuotesWithSamuraiDto
-                {
-                    Id = r.Id,
-                    Text = r.Text,
-                    SamuraiId = r.SamuraiId,
-                    SamuraiName = r.Samurai.Name
-                });
+                var quoteDto = new QuotesWithSamuraiDto();
+                quoteDto.Id = r.Id;
+                quoteDto.Text = r.Text;
+                quoteDto.Samurai = new SamuraiGetDTO();
+                quoteDto.SamuraiId = r.SamuraiId;
+                quoteDto.Samurai.Name = r.Samurai.Name;
+                quoteDto.Samurai.Id = r.Samurai.Id;
+
+                lstQuotesWithSamuraiDto.Add(quoteDto);
+            }
+            return lstQuotesWithSamuraiDto;
+        }
+
+        [HttpGet("Samurai/{samuraiId}")]
+        public IEnumerable<QuotesWithSamuraiDto> GetAll(int samuraiId)
+        {
+            List<QuotesWithSamuraiDto> lstQuotesWithSamuraiDto = new List<QuotesWithSamuraiDto>();
+            var results = _quotes.GetAll(samuraiId);
+            foreach (var r in results)
+            {
+                var quoteDto = new QuotesWithSamuraiDto();
+                quoteDto.Id = r.Id;
+                quoteDto.Text = r.Text;
+                quoteDto.Samurai = new SamuraiGetDTO();
+                quoteDto.SamuraiId = r.SamuraiId;
+                quoteDto.Samurai.Name = r.Samurai.Name;
+                quoteDto.Samurai.Id = r.Samurai.Id;
+
+                lstQuotesWithSamuraiDto.Add(quoteDto);
             }
             return lstQuotesWithSamuraiDto;
         }

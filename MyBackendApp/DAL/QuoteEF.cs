@@ -25,6 +25,13 @@ namespace MyBackendApp.DAL
             }
         }
 
+        public IEnumerable<Quote> GetAll(int samuraiId)
+        {
+            var quotes = _dbcontext.Quotes.Include(q => q.Samurai)
+                .Where(q=>q.SamuraiId==samuraiId);
+            return quotes;
+        }
+
         public IEnumerable<Quote> GetAll()
         {
             var quotes = _dbcontext.Quotes.Include(q=>q.Samurai);
