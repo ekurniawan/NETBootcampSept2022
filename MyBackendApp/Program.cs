@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("SamuraiConnection")));
 
 //DI
-builder.Services.AddScoped<ISamurai,SamuraiDAL>();
+builder.Services.AddScoped<ISamurai,SamuraiEF>();
 
 var app = builder.Build();
 
