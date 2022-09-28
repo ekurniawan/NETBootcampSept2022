@@ -1,4 +1,5 @@
-﻿using MyBackendApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyBackendApp.Models;
 
 namespace MyBackendApp.DAL
 {
@@ -26,7 +27,7 @@ namespace MyBackendApp.DAL
 
         public IEnumerable<Quote> GetAll()
         {
-            var quotes = _dbcontext.Quotes;
+            var quotes = _dbcontext.Quotes.Include(q=>q.Samurai);
             return quotes;
         }
 
