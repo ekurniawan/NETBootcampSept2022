@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 //untuk EF
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("SamuraiConnection")));
+    builder.Configuration.GetConnectionString("SamuraiConnection")).EnableSensitiveDataLogging());
 
 //DI
 builder.Services.AddScoped<ISamurai,SamuraiEF>();
