@@ -101,6 +101,22 @@ namespace MyBackendApp.Controllers
             return listSamuraiGetDto;*/
         }
 
+        [HttpPost("WithQuotes")]
+        public IActionResult PostWithQuotes(SamuraiAddWithQuotesDto samuraiWithQuotesDto)
+        {
+            try
+            {
+                var samurai = _mapper.Map<Samurai>(samuraiWithQuotesDto);
+                var newSamurai = _samurai.Insert(samurai);
+                var samuraiGetDto = _mapper.Map<SamuraiGetDTO>(newSamurai);
+                return CreatedAtAction("Get", new { id = samuraiGetDto.Id }, samuraiGetDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public IActionResult Post(SamuraiAddDTO samuraiDto)
         {
