@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyBackendApp.DAL;
 using MyBackendApp.DTO;
@@ -10,16 +11,23 @@ namespace MyBackendApp.Controllers
     [ApiController]
     public class QuotesController : ControllerBase
     {
-        private IQuote _quotes;
-        public QuotesController(IQuote quotes)
+        private readonly IQuote _quotes;
+        private readonly IMapper _mapper;
+
+        public QuotesController(IQuote quotes,IMapper mapper)
         {
             _quotes = quotes;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IEnumerable<QuotesWithSamuraiDto> GetAll()
         {
-            List<QuotesWithSamuraiDto> lstQuotesWithSamuraiDto = new List<QuotesWithSamuraiDto>();
+            var results = _quotes.GetAll();
+            var lstQuotesWithSamuraiDto = _mapper.Map<IEnumerable<QuotesWithSamuraiDto>>(results);
+            return lstQuotesWithSamuraiDto;
+
+            /*List<QuotesWithSamuraiDto> lstQuotesWithSamuraiDto = new List<QuotesWithSamuraiDto>();
             var results = _quotes.GetAll();
             foreach(var r in results)
             {
@@ -33,13 +41,16 @@ namespace MyBackendApp.Controllers
 
                 lstQuotesWithSamuraiDto.Add(quoteDto);
             }
-            return lstQuotesWithSamuraiDto;
+            return lstQuotesWithSamuraiDto;*/
         }
 
         [HttpGet("Samurai/{samuraiId}")]
         public IEnumerable<QuotesWithSamuraiDto> GetAll(int samuraiId)
         {
-            List<QuotesWithSamuraiDto> lstQuotesWithSamuraiDto = new List<QuotesWithSamuraiDto>();
+            var results = _quotes.GetAll(samuraiId);
+            var lstQuotesWithSamuraiDto = _mapper.Map<IEnumerable<QuotesWithSamuraiDto>>(results);
+            return lstQuotesWithSamuraiDto;
+            /*List<QuotesWithSamuraiDto> lstQuotesWithSamuraiDto = new List<QuotesWithSamuraiDto>();
             var results = _quotes.GetAll(samuraiId);
             foreach (var r in results)
             {
@@ -53,16 +64,20 @@ namespace MyBackendApp.Controllers
 
                 lstQuotesWithSamuraiDto.Add(quoteDto);
             }
-            return lstQuotesWithSamuraiDto;
+            return lstQuotesWithSamuraiDto;*/
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var quoteWithSamuraiDto = new QuotesWithSamuraiDto();
+            
+
+            //var quoteWithSamuraiDto = new QuotesWithSamuraiDto();
             try
             {
                 var result = _quotes.GetById(id);
+                var quoteWithSamuraiDto = _mapper.Map<QuotesWithSamuraiDto>(result);
+                /*var result = _quotes.GetById(id);
                 quoteWithSamuraiDto.Id = result.Id;
                 quoteWithSamuraiDto.Text = result.Text;
                 quoteWithSamuraiDto.SamuraiId=result.SamuraiId;
@@ -70,6 +85,7 @@ namespace MyBackendApp.Controllers
                 quoteWithSamuraiDto.Samurai.Id = result.Samurai.Id;
                 quoteWithSamuraiDto.Samurai.Name = result.Samurai.Name;
 
+                return Ok(quoteWithSamuraiDto);*/
                 return Ok(quoteWithSamuraiDto);
             }
             catch (Exception ex)
@@ -83,7 +99,14 @@ namespace MyBackendApp.Controllers
         {
             try
             {
-                var newQuote = new Quote();
+                var newQuote = _mapper.Map<Quote>(quoteAddDto);
+                _quotes.Insert(newQuote);
+
+                var quoteGetDto = _mapper.Map<QuoteGetDTO>(newQuote);
+
+                return CreatedAtAction("GetById", new { id = quoteGetDto.Id }, quoteGetDto);
+
+                /*var newQuote = new Quote();
                 newQuote.Text = quoteAddDto.Text;
                 newQuote.SamuraiId = quoteAddDto.SamuraiId;
 
@@ -96,7 +119,7 @@ namespace MyBackendApp.Controllers
                     SamuraiId = newQuote.SamuraiId
                 };
                 
-                return CreatedAtAction("GetById", new { id = quoteGetDto.Id }, quoteGetDto);
+                return CreatedAtAction("GetById", new { id = quoteGetDto.Id }, quoteGetDto);*/
             }
             catch (Exception ex)
             {
@@ -109,7 +132,12 @@ namespace MyBackendApp.Controllers
         {
             try
             {
-                var editQuote = new Quote
+
+                var editQuote = _mapper.Map<Quote>(quoteAddDto);
+                _quotes.Update(editQuote);
+                var quoteGetDto = _mapper.Map<QuoteGetDTO>(editQuote);
+                return Ok(quoteGetDto);
+                /*var editQuote = new Quote
                 {
                     Id = id,
                     Text = quoteAddDto.Text,
@@ -125,7 +153,7 @@ namespace MyBackendApp.Controllers
                     SamuraiId = editQuote.SamuraiId
                 };
 
-                return Ok(quoteGetDto);
+                return Ok(quoteGetDto);*/
             }
             catch (Exception ex)
             {
