@@ -191,5 +191,10 @@ namespace MyBackendApp.DAL
         {
             throw new NotImplementedException();
         }
+
+        public void AddHorse(Horse horse)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

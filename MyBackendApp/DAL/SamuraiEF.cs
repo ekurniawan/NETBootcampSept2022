@@ -11,6 +11,19 @@ namespace MyBackendApp.DAL
             _dbcontext = dbcontext;
         }
 
+        public void AddHorse(Horse horse)
+        {
+            try
+            {
+                _dbcontext.Add(horse);
+                _dbcontext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public void AddSamuraiToBattle(int samuraiId, int battleId)
         {
             try

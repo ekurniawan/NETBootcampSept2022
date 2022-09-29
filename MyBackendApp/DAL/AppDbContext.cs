@@ -12,6 +12,6 @@ namespace MyBackendApp.DAL
         public DbSet<Samurai> Samurais { get; set; }
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Battle> Battles { get; set; }
-
+       
     }
 }

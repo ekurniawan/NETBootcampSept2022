@@ -207,5 +207,20 @@ namespace MyBackendApp.Controllers
             }
         }
 
+        [HttpPost("Horse")]
+        public IActionResult AddHorse(AddHorseDto addHorseDto)
+        {
+            try
+            {
+                var horse = _mapper.Map<Horse>(addHorseDto);
+                _samurai.AddHorse(horse);
+                return Ok(horse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
