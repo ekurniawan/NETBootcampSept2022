@@ -18,7 +18,6 @@ namespace MyBackendApp.DAL
         public IEnumerable<Samurai> GetAllSamuraiWithHorse();
 
         public Samurai GetSamuraiWithBattle(int samuraiId);
-
         public IEnumerable<Samurai> GetAllSamuraisWithBattles();
 
     }
