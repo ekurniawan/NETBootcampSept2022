@@ -12,6 +12,9 @@ namespace MyBackendApp.Profiles
             CreateMap<Quote, QuoteGetDTO>();
             CreateMap<Quote, QuotesWithSamuraiDto>();
             CreateMap<Samurai, SamuraiGetDTO>();
+            CreateMap<SamuraiAddDTO, Samurai>();
+         
+            CreateMap<Samurai, SamuraiWithQuoteDTO>();
         }
     }
 }

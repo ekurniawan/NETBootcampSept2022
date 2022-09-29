@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyBackendApp.DAL;
 using MyBackendApp.DTO;
@@ -11,15 +12,20 @@ namespace MyBackendApp.Controllers
     public class SamuraisController : ControllerBase
     {
         private readonly ISamurai _samurai;
-        public SamuraisController(ISamurai samurai)
+        private readonly IMapper _mapper;
+        public SamuraisController(ISamurai samurai,IMapper mapper)
         {
             _samurai = samurai;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IEnumerable<SamuraiGetDTO> Get()
         {
-            List<SamuraiGetDTO> lstSamuraiGetDto = new List<SamuraiGetDTO>();
+            var results = _samurai.GetAll();
+            var lstSamuraiGetDto = _mapper.Map<IEnumerable<SamuraiGetDTO>>(results);
+            return lstSamuraiGetDto;
+            /*List<SamuraiGetDTO> lstSamuraiGetDto = new List<SamuraiGetDTO>();
             var results = _samurai.GetAll();
             foreach(var s in results)
             {
@@ -29,13 +35,16 @@ namespace MyBackendApp.Controllers
                     Name = s.Name
                 });
             }
-            return lstSamuraiGetDto;
+            return lstSamuraiGetDto;*/
         }
 
         [HttpGet("WithQuotes")]
         public IEnumerable<SamuraiWithQuoteDTO> GetSamuraiWithQuote()
         {
-            List<SamuraiWithQuoteDTO> lstSamuraiWithQuoteDto = new List<SamuraiWithQuoteDTO>();
+            var results = _samurai.GetAllWithQuote();
+            var lstSamuraiWithQuoteDto = _mapper.Map<IEnumerable<SamuraiWithQuoteDTO>>(results);
+            return lstSamuraiWithQuoteDto;
+            /*List<SamuraiWithQuoteDTO> lstSamuraiWithQuoteDto = new List<SamuraiWithQuoteDTO>();
             var results = _samurai.GetAllWithQuote();
             foreach(var r in results)
             {
@@ -57,24 +66,30 @@ namespace MyBackendApp.Controllers
                     Quotes = lstQuoteGetDto
                 });
             }
-            return lstSamuraiWithQuoteDto;
+            return lstSamuraiWithQuoteDto;*/
         }
 
         [HttpGet("{id}")]
         public SamuraiGetDTO Get(int id)
         {
             var result = _samurai.GetById(id);
+            var samuraiGetDto = _mapper.Map<SamuraiGetDTO>(result);
+            return samuraiGetDto;
+            /*var result = _samurai.GetById(id);
             var samuraiGetDto = new SamuraiGetDTO
             {
                 Name = result.Name
             };
-            return samuraiGetDto;
+            return samuraiGetDto;*/
         }
 
         [HttpGet("ByName")]
         public IEnumerable<SamuraiGetDTO> GetByName(string name)
         {
-            List<SamuraiGetDTO> listSamuraiGetDto = new List<SamuraiGetDTO>();
+            var results = _samurai.GetByName(name);
+            var listSamuraiGetDto = _mapper.Map<IEnumerable<SamuraiGetDTO>>(results);
+            return listSamuraiGetDto;
+            /*List<SamuraiGetDTO> listSamuraiGetDto = new List<SamuraiGetDTO>();
             var results = _samurai.GetByName(name);
             foreach(var r in results)
             {
@@ -83,7 +98,7 @@ namespace MyBackendApp.Controllers
                     Name = r.Name
                 });
             }
-            return listSamuraiGetDto;
+            return listSamuraiGetDto;*/
         }
 
         [HttpPost]
@@ -91,7 +106,12 @@ namespace MyBackendApp.Controllers
         {
             try
             {
-                var samurai = new Samurai
+                var samurai = _mapper.Map<Samurai>(samuraiDto);
+                var newSamurai = _samurai.Insert(samurai);
+                var samuraiGetDto = _mapper.Map<SamuraiGetDTO>(newSamurai);
+                return CreatedAtAction("Get", new { id = samuraiGetDto.Id }, samuraiGetDto);
+
+                /*var samurai = new Samurai
                 {
                     Name = samuraiDto.Name
                 };
@@ -104,7 +124,7 @@ namespace MyBackendApp.Controllers
                     Name = newSamurai.Name
                 };
 
-                return CreatedAtAction("Get", new { id = samuraiGetDto.Id }, samuraiGetDto);
+                return CreatedAtAction("Get", new { id = samuraiGetDto.Id }, samuraiGetDto);*/
             }
             catch (Exception ex)
             {
@@ -117,7 +137,12 @@ namespace MyBackendApp.Controllers
         {
             try
             {
-                var samurai = new Samurai
+                var samurai = _mapper.Map<Samurai>(samuraiDto);
+                var editSamurai = _samurai.Update(samurai);
+                var samuraiGetDto = _mapper.Map<SamuraiGetDTO>(editSamurai);
+                return Ok(samuraiGetDto);
+
+                /*var samurai = new Samurai
                 {
                     Id = id,
                     Name = samuraiDto.Name
@@ -130,7 +155,7 @@ namespace MyBackendApp.Controllers
                     Name = samuraiDto.Name
                 };
 
-                return Ok(samuraiGetDto);
+                return Ok(samuraiGetDto);*/
             }
             catch (Exception ex)
             {
