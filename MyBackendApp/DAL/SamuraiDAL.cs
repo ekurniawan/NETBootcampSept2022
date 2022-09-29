@@ -186,5 +186,10 @@ namespace MyBackendApp.DAL
         {
             throw new NotImplementedException();
         }
+
+        public void AddSamuraiToBattle(int samuraiId, int battleId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

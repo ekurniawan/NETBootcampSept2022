@@ -13,4 +13,3 @@ namespace MyBackendApp.DAL
         public void Delete(int id);
     }
 }
-}

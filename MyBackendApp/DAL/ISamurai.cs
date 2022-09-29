@@ -11,5 +11,8 @@ namespace MyBackendApp.DAL
         public Samurai Insert(Samurai samurai);
         public Samurai Update(Samurai samurai);
         public void Delete(int id);
+
+        //mendaftarkan samurai yang sudah ada ke battle yang sudah ada
+        public void AddSamuraiToBattle(int samuraiId, int battleId);
     }
 }

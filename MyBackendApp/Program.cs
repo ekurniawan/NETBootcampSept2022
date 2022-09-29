@@ -20,6 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 //DI
 builder.Services.AddScoped<ISamurai,SamuraiEF>();
 builder.Services.AddScoped<IQuote, QuoteEF>();
+builder.Services.AddScoped<IBattle,BattleEF>();
 
 var app = builder.Build();
 

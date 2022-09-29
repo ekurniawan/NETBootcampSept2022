@@ -11,6 +11,25 @@ namespace MyBackendApp.DAL
             _dbcontext = dbcontext;
         }
 
+        public void AddSamuraiToBattle(int samuraiId, int battleId)
+        {
+            try
+            {
+                var samurai = _dbcontext.Samurais.FirstOrDefault(s => s.Id == samuraiId);
+                var battle = _dbcontext.Battles.FirstOrDefault(b => b.BattleId == battleId);
+                if(samurai != null && battle != null)
+                {
+                    //battle.Samurais = new List<Samurai>();
+                    battle.Samurais.Add(samurai);
+                    _dbcontext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public void Delete(int id)
         {
             var deleteSamurai = GetById(id);

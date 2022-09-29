@@ -193,5 +193,19 @@ namespace MyBackendApp.Controllers
             }
         }
 
+        [HttpPost("Battle")]
+        public IActionResult AddSamuraiToBattle(AddSamuraiToBattleDto addSamuraiToBattleDto)
+        {
+            try
+            {
+                _samurai.AddSamuraiToBattle(addSamuraiToBattleDto.SamuraiId, addSamuraiToBattleDto.BattleId);
+                return Ok($"Samurai id {addSamuraiToBattleDto.SamuraiId} berhasil dittambahkan ke battle {addSamuraiToBattleDto.BattleId}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
