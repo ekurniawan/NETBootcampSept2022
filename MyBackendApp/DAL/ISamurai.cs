@@ -15,5 +15,11 @@ namespace MyBackendApp.DAL
         //mendaftarkan samurai yang sudah ada ke battle yang sudah ada
         public void AddSamuraiToBattle(int samuraiId, int battleId);
         public void AddHorse(Horse horse);
+        public IEnumerable<Samurai> GetAllSamuraiWithHorse();
+
+        public Samurai GetSamuraiWithBattle(int samuraiId);
+
+        public IEnumerable<Samurai> GetAllSamuraisWithBattles();
+
     }
 }

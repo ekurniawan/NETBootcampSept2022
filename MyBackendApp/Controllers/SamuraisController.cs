@@ -222,5 +222,29 @@ namespace MyBackendApp.Controllers
             }
         }
 
+        [HttpGet("WithHorse")]
+        public IEnumerable<SamuraiWithHorseDto> GetSamuraiWithHorse()
+        {
+            var samurais = _samurai.GetAllSamuraiWithHorse();
+            var samuraisWithHorse = _mapper.Map<IEnumerable<SamuraiWithHorseDto>>(samurais);
+            return samuraisWithHorse;
+        }
+
+        [HttpGet("WithBattle/{samuraiId}")]
+        public SamuraiWithBattleDto GetSamuraiWithBattle(int samuraiId)
+        {
+            var samurais = _samurai.GetSamuraiWithBattle(samuraiId);
+            var samuraiWithBattleDto = _mapper.Map<SamuraiWithBattleDto>(samurais);
+            return samuraiWithBattleDto;
+        }
+
+        [HttpGet("WithBattles")]
+        public IEnumerable<SamuraiWithBattleDto> GetAllSamuraisWithBattles()
+        {
+            var samurais = _samurai.GetAllSamuraisWithBattles();
+            var samuraiWithBattles = _mapper.Map<IEnumerable<SamuraiWithBattleDto>>(samurais);
+            return samuraiWithBattles;
+        }
+
     }
 }

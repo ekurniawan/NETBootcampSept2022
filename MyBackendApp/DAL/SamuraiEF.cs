@@ -20,7 +20,7 @@ namespace MyBackendApp.DAL
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
         }
 
@@ -69,6 +69,18 @@ namespace MyBackendApp.DAL
             return results;
         }
 
+        public IEnumerable<Samurai> GetAllSamuraisWithBattles()
+        {
+            var samurais = _dbcontext.Samurais.Include(s => s.Battles).ToList();
+            return samurais;
+        }
+
+        public IEnumerable<Samurai> GetAllSamuraiWithHorse()
+        {
+            var samurais = _dbcontext.Samurais.Include(s => s.Horse).ToList();
+            return samurais;
+        }
+
         public IEnumerable<Samurai> GetAllWithQuote()
         {
             var results = _dbcontext.Samurais.Include(s => s.Quotes);
@@ -91,6 +103,16 @@ namespace MyBackendApp.DAL
         {
             var results = _dbcontext.Samurais.Where(s => s.Name.Contains(name)).OrderBy(s => s.Name);
             return results;
+        }
+
+        public Samurai GetSamuraiWithBattle(int samuraiId)
+        {
+            var result = _dbcontext.Samurais.Include(s => s.Battles)
+                .FirstOrDefault(s => s.Id == samuraiId);
+            if (result == null)
+                throw new Exception($"samurai id {samuraiId} tidak ditemukan");
+            
+            return result;
         }
 
         public Samurai Insert(Samurai samurai)

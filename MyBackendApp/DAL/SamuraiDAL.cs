@@ -196,5 +196,20 @@ namespace MyBackendApp.DAL
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Samurai> GetAllSamuraiWithHorse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Samurai GetSamuraiWithBattle(int samuraiId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Samurai> GetAllSamuraisWithBattles()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
