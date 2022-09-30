@@ -246,5 +246,19 @@ namespace MyBackendApp.Controllers
             return samuraiWithBattles;
         }
 
+        [HttpPost("RemoveBattle")]
+        public IActionResult RemoveBattleFromSamurai(AddSamuraiToBattleDto samuraiBattleDto)
+        {
+            try
+            {
+                _samurai.RemoveBattleFromSamurai(samuraiBattleDto.SamuraiId, samuraiBattleDto.BattleId);
+                return Ok($"Remove battle {samuraiBattleDto.BattleId} from Samurai {samuraiBattleDto.SamuraiId}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

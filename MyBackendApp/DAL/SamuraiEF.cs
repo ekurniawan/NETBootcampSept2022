@@ -129,6 +129,22 @@ namespace MyBackendApp.DAL
             }
         }
 
+        public void RemoveBattleFromSamurai(int samuraiId, int battleId)
+        {
+            try
+            {
+                var battleWithSamurai = _dbcontext.Battles.Include(b => b.Samurais.Where(s => s.Id == samuraiId))
+                .FirstOrDefault(s => s.BattleId == battleId);
+                var samurai = battleWithSamurai.Samurais[0];
+                battleWithSamurai.Samurais.Remove(samurai);
+                _dbcontext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public Samurai Update(Samurai samurai)
         {
             var updateSamurai = GetById(samurai.Id);

@@ -20,5 +20,6 @@ namespace MyBackendApp.DAL
         public Samurai GetSamuraiWithBattle(int samuraiId);
         public IEnumerable<Samurai> GetAllSamuraisWithBattles();
 
+        public void RemoveBattleFromSamurai(int samuraiId, int battleId);
     }
 }

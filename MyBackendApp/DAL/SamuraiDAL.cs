@@ -211,5 +211,10 @@ namespace MyBackendApp.DAL
         {
             throw new NotImplementedException();
         }
+
+        public void RemoveBattleFromSamurai(int samuraiId, int battleId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
