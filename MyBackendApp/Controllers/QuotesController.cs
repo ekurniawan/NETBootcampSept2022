@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyBackendApp.DAL;
@@ -20,6 +21,8 @@ namespace MyBackendApp.Controllers
             _mapper = mapper;
         }
 
+
+        [Authorize]
         [HttpGet]
         public IEnumerable<QuotesWithSamuraiDto> GetAll()
         {
@@ -44,6 +47,7 @@ namespace MyBackendApp.Controllers
             return lstQuotesWithSamuraiDto;*/
         }
 
+        [Authorize]
         [HttpGet("Samurai/{samuraiId}")]
         public IEnumerable<QuotesWithSamuraiDto> GetAll(int samuraiId)
         {
@@ -67,6 +71,7 @@ namespace MyBackendApp.Controllers
             return lstQuotesWithSamuraiDto;*/
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

@@ -31,6 +31,8 @@ namespace MyBackendApp.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPost("Login")]
         public async Task<IActionResult> Authenticate(AddUserDto userDto)
         {
             try
