@@ -260,5 +260,27 @@ namespace MyBackendApp.Controllers
             }
         }
 
+        [HttpGet("SaidWord")]
+        public IEnumerable<SamuraiGetDTO> GetSamuraiWhoSaidWord(string text)
+        {
+            var samurais = _samurai.GetSamuraiWhoSaidWord(text);
+            var samuraiGetDto = _mapper.Map<IEnumerable<SamuraiGetDTO>>(samurais);
+            return samuraiGetDto;
+        }
+
+        [HttpDelete("Quotes/{samuraiId}")]
+        public IActionResult RemoveQuotesFromSamurai(int samuraiId)
+        {
+            try
+            {
+                _samurai.RemoveQuotesFromSamurai(samuraiId);
+                return Ok($"Quotes dari samurai id {samuraiId} berhasil didelete");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

@@ -216,5 +216,20 @@ namespace MyBackendApp.DAL
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Samurai> GetAllWithQuery()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Samurai> GetSamuraiWhoSaidWord(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveQuotesFromSamurai(int samuraiId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

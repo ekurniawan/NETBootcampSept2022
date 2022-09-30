@@ -81,6 +81,12 @@ namespace MyBackendApp.DAL
             return samurais;
         }
 
+        public IEnumerable<Samurai> GetAllWithQuery()
+        {
+            var samurais = _dbcontext.Samurais.FromSqlRaw("select * from Samurais order by Name asc").ToList();
+            return samurais;
+        }
+
         public IEnumerable<Samurai> GetAllWithQuote()
         {
             var results = _dbcontext.Samurais.Include(s => s.Quotes);
@@ -103,6 +109,13 @@ namespace MyBackendApp.DAL
         {
             var results = _dbcontext.Samurais.Where(s => s.Name.Contains(name)).OrderBy(s => s.Name);
             return results;
+        }
+
+        public IEnumerable<Samurai> GetSamuraiWhoSaidWord(string text)
+        {
+            var samurais = _dbcontext.Samurais
+                .FromSqlInterpolated($"exec dbo.SamuraisWhoSaidAWord {text}").ToList();
+            return samurais;
         }
 
         public Samurai GetSamuraiWithBattle(int samuraiId)
@@ -141,6 +154,19 @@ namespace MyBackendApp.DAL
             }
             catch (Exception ex)
             {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void RemoveQuotesFromSamurai(int samuraiId)
+        {
+            try
+            {
+                _dbcontext.Database.ExecuteSqlInterpolated($"exec dbo.DeleteQuotesForSamurai {samuraiId}");
+            }
+            catch (Exception ex)
+            {
+
                 throw new Exception(ex.Message);
             }
         }

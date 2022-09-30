@@ -21,5 +21,9 @@ namespace MyBackendApp.DAL
         public IEnumerable<Samurai> GetAllSamuraisWithBattles();
 
         public void RemoveBattleFromSamurai(int samuraiId, int battleId);
+
+        public IEnumerable<Samurai> GetAllWithQuery();
+        public IEnumerable<Samurai> GetSamuraiWhoSaidWord(string text);
+        public void RemoveQuotesFromSamurai(int samuraiId);
     }
 }
