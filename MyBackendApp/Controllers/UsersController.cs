@@ -30,5 +30,20 @@ namespace MyBackendApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        public async Task<IActionResult> Authenticate(AddUserDto userDto)
+        {
+            try
+            {
+                var user = await _user.Authenticate(userDto);
+                if (user == null)
+                    return BadRequest("Username or Password doesn't match");
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

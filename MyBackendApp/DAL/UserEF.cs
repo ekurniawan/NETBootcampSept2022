@@ -48,9 +48,17 @@ namespace MyBackendApp.DAL
             return userWithToken;
         }
 
-        public Task<IEnumerable<UserGetDto>> GetAll()
+        public IEnumerable<UserGetDto> GetAll()
         {
-            throw new NotImplementedException();
+            var users = new List<UserGetDto>();
+            foreach(var user in _userManager.Users)
+            {
+                users.Add(new UserGetDto
+                {
+                    Username = user.UserName
+                });
+            }
+            return users;
         }
 
         public async Task Registration(AddUserDto user)
