@@ -31,6 +31,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 builder.Services.AddScoped<ISamurai,SamuraiEF>();
 builder.Services.AddScoped<IQuote, QuoteEF>();
 builder.Services.AddScoped<IBattle,BattleEF>();
+builder.Services.AddScoped<IUser, UserEF>();
 
 var app = builder.Build();
 
